@@ -25,7 +25,3 @@ Important notes
 | `ALT + RMB` | Resizes window in floating & resizes mfact in tiled; when two or more windows are on screen |
 | `ALT + SPACE` | Makes the selected window float |
 | `ALT + R` | Resets mfact |
-
-<p align="center">
-  <img src=".github/images/previewScript3.png" alt="Image">
-</p>
