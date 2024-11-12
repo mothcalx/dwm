@@ -1,24 +1,3 @@
-Starting dwm
-- DWM is auto-started from tty1 via autologin and zprofile only after rebooting / logging out & logging back in.
-
-Updating dotfiles
-- To sync your clone of DWM with the latest version, you can use the following command:
-  ```shell
-  curl -fsSL https://github.com/nnyyxxxx/dwm/raw/main/update.sh | sh
-  ```
-
-Uninstalling dotfiles
-- To uninstall the dotfiles, you can use the following command:
-  ```shell
-  curl -fsSL https://github.com/nnyyxxxx/dwm/raw/main/uninstall.sh | sh
-  ```
-> [!NOTE]  
-> This will restore any previous configuration files overwritten by the install script.
-
-> [!IMPORTANT]  
-> This rice relies on having a permament existing ``dwm/`` directory. Do **NOT** remove the directory after setup.
-> Any changes to the dotfiles should be made in the ``dwm/`` directory, any changes made in ``~/.config/`` will **NOT** work.
-
 <div align="center">
   <h2>Information</h2>
 </div>
