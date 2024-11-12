@@ -1,26 +1,3 @@
-<p align="center">
-  <img src=".github/images/logo.png" alt="Image">
-</p>
-
-<hr>
-
-<div align="center">
-  <h2>Usage</h2>
-</div>
-
-Install via curl
-  ```shell
-  curl -fsSL https://github.com/nnyyxxxx/dwm/raw/main/install.sh | sh
-  ```
-
-Install via git
-  ```shell
-  git clone https://github.com/nnyyxxxx/dwm
-  cd dwm
-  chmod +x install.sh
-  ./install.sh
-  ```
-
 Starting dwm
 - DWM is auto-started from tty1 via autologin and zprofile only after rebooting / logging out & logging back in.
 
@@ -69,24 +46,6 @@ Important notes
 | `ALT + RMB` | Resizes window in floating & resizes mfact in tiled; when two or more windows are on screen |
 | `ALT + SPACE` | Makes the selected window float |
 | `ALT + R` | Resets mfact |
-
-<div align="center">
-  <h2>Preview</h2>
-</div>
-
-![PV](.github/images/preview.png)
-
-<div align="center">
-  <h2>Script previews</h2>
-</div>
-
-<p align="center">
-  <img src=".github/images/previewScript.png" alt="Image">
-</p>
-
-<p align="center">
-  <img src=".github/images/previewScript2.png" alt="Image">
-</p>
 
 <p align="center">
   <img src=".github/images/previewScript3.png" alt="Image">
