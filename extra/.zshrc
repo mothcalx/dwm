@@ -29,7 +29,7 @@ alias chmod='chmod +x'
 alias mpv='mpv --keep-open'
 alias record='mkdir -p ~/recordings && ffmpeg -f x11grab -r 60 -s 2560x1440 -i :0.0 -c:v libx264 -preset fast -crf 23 -pix_fmt yuv420p -vf "scale=2560:1440" -threads 0 ~/recordings/$(date +"%Y-%m-%d-%H-%M-%S").mp4'
 alias history='history 1'
-alias ls='ls -hN --group-directories-first --color=auto'
+alias ls="eza -a --color=always --git --no-filesize --icons=always --no-time --no-user --no-permissions"
 alias ..='cd ..'
 
 # git based actions
@@ -146,3 +146,111 @@ ZSH_HIGHLIGHT_STYLES[default]='fg=#cdd6f4'
 ZSH_HIGHLIGHT_STYLES[cursor]='fg=#cdd6f4'
 
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+bindkey '^ ' autosuggest-accept
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
+
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 \
+--color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
+--color=marker:#b7bdf8,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796 \
+--color=selected-bg:#494d64 \
+--multi"
+
+export PATH=~/.local/bin:$PATH
+
+# -- Use fd instead of fzf --
+
+export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+
+# Use fd (https://github.com/sharkdp/fd) for listing path candidates.
+# - The first argument to the function ($1) is the base path to start traversal
+# - See the source code (completion.{bash,zsh}) for the details.
+_fzf_compgen_path() {
+  fd --hidden --exclude .git . "$1"
+}
+
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type=d --hidden --exclude .git . "$1"
+}
+
+show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
+
+export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+
+# Advanced customization of fzf options via _fzf_comprun function
+# - The first argument to the function is the name of the command.
+# - You should make sure to pass the rest of the arguments to fzf.
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+    export|unset) fzf --preview "eval 'echo ${}'"         "$@" ;;
+    ssh)          fzf --preview 'dig {}'                   "$@" ;;
+    *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
+  esac
+}
+
+eval "$(oh-my-posh init zsh --config ~/catppuccin_mocha.omp.json)"
+
+# Define colors
+GREEN="\e[32m"
+CYAN="\e[36m"
+YELLOW="\e[33m"
+BLUE="\e[34m"
+PASTEL_PINK="\e[38;5;218m"
+MAGENTA="\e[35m"
+RED="\e[31m"
+RESET="\e[0m"
+
+# Define the function `nekofetch`
+nekofetch() {
+  # ASCII Art in Pastel Pink
+  ASCII_ART="${PASTEL_PINK}
+        へ  ♡  ╱|、
+     ૮ - ՛)   (\` - 7
+      /⁻ ៸|   |、՛〵
+  乀(ˍ,ل  ل   じしˍ,)ノ 
+  ${RESET}"
+
+  # Get terminal prompt and user information
+  USER=$(whoami)
+  HOST=${HOST}
+  CWD=$(pwd)
+  PROMPT="${GREEN}${USER}@${HOST}:${YELLOW}${CWD}${RESET}"
+
+  # Gather system information
+  OS=$(lsb_release -d | awk -F"\t" '{print $2}')
+  KERNEL=$(uname -r)
+  UPTIME=$(uptime -p)
+  SHELL=$SHELL
+  CPU=$(lscpu | grep 'Model name' | awk -F: '{print $2}' | xargs)
+  MEMORY=$(free -h | grep Mem | awk '{print $3 "/" $2}')
+
+  # Display ASCII Art
+  echo -e "$ASCII_ART"
+
+  # Display the separator line with the prompt
+  echo -e "${CYAN}----------------------------------------${RESET}"
+  echo -e "$PROMPT"
+  echo -e "${CYAN}----------------------------------------${RESET}"
+
+  # Display system information
+  echo -e "${BLUE}Username:${RESET} ${MAGENTA}$USER${RESET}"
+  echo -e "${BLUE}Operating System:${RESET} ${MAGENTA}$OS${RESET}"
+  echo -e "${BLUE}Kernel Version:${RESET} ${MAGENTA}$KERNEL${RESET}"
+  echo -e "${BLUE}Uptime:${RESET} ${MAGENTA}$UPTIME${RESET}"
+  echo -e "${BLUE}Shell:${RESET} ${MAGENTA}$SHELL${RESET}"
+  echo -e "${BLUE}CPU:${RESET} ${MAGENTA}$CPU${RESET}"
+  echo -e "${BLUE}Memory Usage:${RESET} ${MAGENTA}$MEMORY${RESET}"
+}

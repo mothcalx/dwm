@@ -6,8 +6,8 @@ static const unsigned int gappx     = 10;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int swallowfloating    = 1;        /* 1 means swallow floating windows by default */
 static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=10" };
+static const int topbar             = 0;        /* 0 means bottom bar */
+static const char *fonts[]          = { "CaskaydiaMono Nerd Font:size=12" };
 static const char col_bg[] = "#1e1e2e";
 static const char col_fg[] = "#b4befe";
 static const char *colors[][4] = {
