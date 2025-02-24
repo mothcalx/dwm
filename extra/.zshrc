@@ -46,7 +46,7 @@ alias log='git log'
 export EDITOR='nvim'
 export VISUAL='nvim'
 export TERMINAL='st-256color'
-export BROWSER='firefox'
+export BROWSER='librewolf'
 
 # parse the branch and transfer it to the prompt
 parse_git_branch() {
